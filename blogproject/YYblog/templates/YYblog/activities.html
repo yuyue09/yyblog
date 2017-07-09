@@ -1,0 +1,44 @@
+{% extends "perhome.html" %}
+{% block message %}
+                 <div class="user-message">
+                {% if owner_message %}
+                 <img  src="/{{MEDIA_URL}}{{ owner_message.head_photo }}" />
+                 {% else %}
+                 <img  src="/{{MEDIA_URL}}/head_photos/no_image.jpg" />
+                 {% endif %}
+                     <p>{{ author.username }}</p>
+              {% if author != current_user %}
+                     {% if follow %}
+                     <a href="{%url 'YYblog:unfollow' author.id %}">取消关注</a>
+                     {% else %}
+                     <a href="{%url 'YYblog:follow' author.id %}">关注ta</a>
+                     {% endif %}
+              {% endif %}
+                 </div>
+{% endblock message %}
+{% block nav %}
+  <div class="nav">
+                  <div class="he">
+                  {% if author == current_user %}
+                    <a id="acti" href="{% url 'YYblog:activities' user.id %}">动态</a>
+                    <a href="{% url 'YYblog:collects' user.id %}">收藏</a>
+                    <a href="{% url 'YYblog:follows' user.id %}">关注</a>
+                    <a href="{% url 'YYblog:home' user.id %}">我的博客</a>
+                    <a href="{% url 'YYblog:owner_message' user.id%}">个人资料</a>
+                    {% else %}
+                    <a id="acti" href="{% url 'YYblog:activities' author.id %}">动态</a>
+                    <a href="{% url 'YYblog:collects' author.id %}">收藏</a>
+                    <a href="{% url 'YYblog:follows' author.id %}">关注</a>
+                    <a href="{% url 'YYblog:home' author.id %}">ta的博客</a>
+                    <a href="{% url 'YYblog:owner_message' author.id%}">个人资料</a>
+                    {% endif %}
+                    </div>
+    <main>
+ {% block main %}
+  
+                       <div class="no-acti">没有新的动态！</div>
+              
+{% endblock main %}
+</main>
+               </div>
+{% endblock nav %}

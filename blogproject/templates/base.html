@@ -1,0 +1,141 @@
+{% load bootstrap3 %}
+{% load YYblog_tags %}
+<!DOCTYPE html>
+<html lang="en">
+   {% block head %}
+    <head>
+        <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    {% load staticfiles %}
+     {% bootstrap_css %} 
+    {% bootstrap_javascript %} 
+    <!--css-->
+     <link rel="stylesheet" href="{% static 'YYblog/css/custom.css' %}" />
+     <link rel="stylesheet" href="{% static 'YYblog/css/detail.css' %}" />
+    <link rel="stylesheet" href="{% static 'YYblog/css/layout.css' %}" />
+    <link  type="text/css"  rel="stylesheet" href="{% static 'YYblog/css/code.css'%}" />
+    <link rel="shortcut icon" href="{% static 'YYblog/image/gui.ico' %}" type="image/x-icon">
+<link rel="icon" href="{% static 'YYblog/image/gui.ico' %}" type="image/x-icon">
+
+ <script src="{% static 'YYblog/js/modernizr.custom.js' %}" ></script>
+    <script src="{% static 'YYblog/js/pace.min.js' %}" ></script>
+    <script src="{% static 'YYblog/js/script.js' %}" ></script>
+
+<style type="text/css" >
+ #account,#index,#myblog{ font-size: 20px; margin-top: 10px; color: white;}
+ #index{ margin-left: 15px;}
+.navbar{ height: 70px;font-family: "Comic Sans MS", cursive}
+.dropdown-menu{ font-size:20px;}
+#mess:hover{ background-color: #99F;}
+.about-me{ margin-right:30px;}
+.bottom{ background-color:#27AE60; height:300px;}
+p{ font-size:20px; margin-top:20px; color:black;}
+.right-list{float:right;  margin-top:100px;}
+.categories{ margin-top:100px;}
+#post-name{text-decoration: none; color:#333333;}
+.fotter{ height: 50px; background-color: green;}
+article{ width:600px; margin-left:150px; margin-top:100px;}
+.post-detail{width:800px; margin-top:100px;}
+#like-nums{ margin-left:30px;}
+body{ background-image:url(../../static/YYblog/image/bg.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size:100% 100%;}
+</style>
+    <title>YY &amp; 博客</title>
+    </head>
+ {% endblock %}
+
+    <body>
+       {% block navbar %}
+   <div class="navbar navbar-inverse" role="navigation"> 
+    <div class="container"> 
+        <div class="navbar-header"> 
+            <button type="button" class="navbar-toggle" 
+             data-toggle="collapse" data-target=".navbar-collapse"> 
+                <span class="sr-only">Toggle navigation</span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+            </button> 
+            <a class="navbar-brand" href="{% url 'YYblog:index' %}" id="myblog"><b>YY</b> &amp; 博客</a> 
+        </div> 
+        <div class="navbar-collapse collapse"> 
+            <ul class="nav navbar-nav"> 
+                <li><a href="{% url 'YYblog:index' %}" id="index">首页</a></li> 
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+             <li><a href="#" id="index" class="about-me">关于博客</a></li>
+             {% if user.is_authenticated %}
+             <a id="account" data-toggle="dropdown" class="navbar-brand" href="">{{ user.username}}<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                       <li><a href="{% url 'YYblog:blog'%}"  id="mess" >写博客</a></li>
+                       <li><a  id="mess" href="{% url 'YYblog:home' user.id %}">我的主页</a></li>
+                     <li><a id="mess" href="{% url 'YYblog:login' %}">登录</a></li> 
+                     <li><a id="mess" href="{% url 'YYblog:logout' %}">退出</a></li>
+                 </ul>
+             {% else %}
+            <a id="account" data-toggle="dropdown" class="navbar-brand" href="">设置<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                     <li><a id="mess" href="{% url 'YYblog:login' %}">登录</a></li> 
+                      <li><a  id="mess" href="{% url 'YYblog:regist'%}">注册</a></li>
+                 </ul>
+                 {% endif %}
+               </ul>
+        </div> 
+    </div> 
+</div> 
+{% endblock %}
+
+<div class="content-body">
+ <div class="right-list">
+                        <div class="recrnt-posts">    
+                            <h3 class="posts-title">最新文章</h3>
+                            {% get_recent_posts as recent_post_list %}    
+                            <ul>   {% for post in recent_post_list %}
+                                <li>
+                            <a id="post-name" href="{{ post.get_absolute_url }}">
+                                <strong>{{ post.title }}</strong>
+                            </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="categories">    
+                            <h3 class="catagory-title">分类</h3>
+                            {% get_categories as category_list %}    
+                            <ul>
+                             {% for category in category_list %}
+                                <li>
+                                 <span class="label label-primary" style="display: inline-block;">
+                        <a href="{% url 'YYblog:category' category.0.id %}" style="color:#fff; text-decoration:none">{{ category.0.name }}
+                        <span class="badge tag-badge">{{ category.1.count }}</span>
+                        </a>
+                        </span>
+                                </li>
+                             {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+            <div class="container">
+                    <div class="main-content">
+                          {% block main %}
+
+                          {% endblock main %}
+    
+
+                    </div>
+                   
+                </div>
+            </div>
+       
+        <footer id="site-footer">
+            <div class="fotter">
+                
+            </div>
+        </footer>
+
+
+    </body>
+</html>

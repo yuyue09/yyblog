@@ -1,0 +1,76 @@
+{% extends "perhome.html" %}
+
+{% block message %}
+                 <div class="user-message">
+                     <p>{{ author.username }}</p>
+              {% if author != current_user %}
+                     {% if follow %}
+                     <a href="{%url 'YYblog:unfollow' author.id %}">取消关注</a>
+                     {% else %}
+                     <a href="{%url 'YYblog:follow' author.id %}">关注ta</a>
+                     {% endif %}
+              {% endif %}
+                 </div>
+{% endblock message %}
+{% block nav %}
+  <div class="nav">
+                  <div class="he">
+                  {% if author == current_user %}
+                    <a id="acti" href="{% url 'YYblog:activities' user.id %}">动态</a>
+                    <a href="{% url 'YYblog:collects' user.id %}">收藏</a>
+                    <a href="{% url 'YYblog:follows' user.id %}">关注</a>
+                    <a href="{% url 'YYblog:home' user.id %}">我的博客</a>
+                    <a href="{% url 'YYblog:owner_message' user.id%}">个人资料</a>
+                    {% else %}
+                    <a id="acti" href="{% url 'YYblog:activities' author.id %}">动态</a>
+                    <a href="{% url 'YYblog:collects' author.id %}">收藏</a>
+                    <a href="{% url 'YYblog:follows' author.id %}">关注</a>
+                    <a href="{% url 'YYblog:home' author.id %}">ta的博客</a>
+                    <a href="{% url 'YYblog:owner_message' author.id%}">个人资料</a>
+                    {% endif %}
+                    </div>
+    <main>
+              {% block main %}
+                      <div class="message-title">
+                <h2>资料编辑</h2>
+                </div>
+           {% for message in messages %}
+            <div id="success-message">
+             <span class="success-message">{{ message }}</span> 
+            </div>
+                {% endfor %}
+                <div class="old-messages">
+                    <form method="POST" class="messageform" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="old_photo">
+                    <img  src="/{{MEDIA_URL}}{{ old_message.head_photo }}" />
+                  </div>
+                    <div class="head_photo">
+                              <span>修改头像：</span> {{ messageform.head_photo }}
+                          </div>
+                          <div class="sex">
+                          {% if old_message.sex == 0 %}
+                             <span>性别：</span><label><input type="radio" id="sex" name="sex" value="0" checked="checked"/>男</label>                             <label><input type="radio" id="sex" name="sex" value="1"/>女</label>
+                             {% else %}
+                             <span>性别：</span><label><input type="radio" id="sex" name="sex" value="0" />男</label>                
+                            <label><input type="radio" id="sex" name="sex" value="1" checked="checked"/>女</label>
+                            {% endif %}
+                          </div>
+                          <div class="location">
+                             <span>居住地：</span> <input id="id_location" maxlength="100" name="location" type="text" required value="{{old_message.location}}" />
+                          </div>
+                          <div class="job">
+                             <span>职业：</span> <input id="id_job" maxlength="100" name="job" type="text" required  value="{{old_message.job}}" />
+                          </div>
+                          <div class="eduction">
+                             <span>教育经历：</span> <input id="id_eduction" maxlength="100" name="eduction" type="text" required value="{{old_message.edcution}}" />
+                          </div
+                          ><div  class="about-me">
+                                  <p>个性签名:</p>
+                                 <textarea name="area">{{old_message.about_me}}</textarea>
+                          </div>
+                         <button type="submit" class="edit"><span>确认编辑</span></button>
+                    </form>
+              {% endblock main %}
+              </main>
+     </div>
+              {% endblock nav %}

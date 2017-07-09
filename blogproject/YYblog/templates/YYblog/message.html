@@ -1,0 +1,86 @@
+{% extends "perhome.html" %}
+
+{% block message %}
+                 <div class="user-message">
+                {% if owner_message %}
+                 <img  src="/{{MEDIA_URL}}{{ owner_message.head_photo }}" />
+                 {% else %}
+                 <img  src="/{{MEDIA_URL}}/head_photos/no_image.jpg" />
+                 {% endif %}
+                     <p>{{ author.username }}</p>
+              {% if author != current_user %}
+                     {% if follow %}
+                     <a href="{%url 'YYblog:unfollow' author.id %}">取消关注</a>
+                     {% else %}
+                     <a href="{%url 'YYblog:follow' author.id %}">关注ta</a>
+                     {% endif %}
+              {% endif %}
+                 </div>
+{% endblock message %}
+{% block nav %}
+  <div class="nav">
+                 <div class="he">
+                  {% if author == current_user %}
+                    <a id="acti" href="{% url 'YYblog:activities' user.id %}">动态</a>
+                    <a href="{% url 'YYblog:collects' user.id %}">收藏</a>
+                    <a href="{% url 'YYblog:follows' user.id %}">关注</a>
+                    <a href="{% url 'YYblog:home' user.id %}">我的博客</a>
+                    <a href="{% url 'YYblog:owner_message' user.id%}">个人资料</a>
+                    {% else %}
+                    <a id="acti" href="{% url 'YYblog:activities' author.id %}">动态</a>
+                    <a href="{% url 'YYblog:collects' author.id %}">收藏</a>
+                    <a href="{% url 'YYblog:follows' author.id %}">关注</a>
+                    <a href="{% url 'YYblog:home' author.id %}">ta的博客</a>
+                    <a href="{% url 'YYblog:owner_message' author.id%}">个人资料</a>
+                    {% endif %}
+                    </div>
+    <main>
+              {% block main %}
+                <div class="message-title">
+                <h2>个人资料</h2>
+                </div>
+                <div class="owner-messages">
+                {% if owner_message %}
+                <div class="photo">
+                    <img  src="/{{MEDIA_URL}}{{ owner_message.head_photo }}" />
+                  </div>
+                     <div class="sex">
+                             {% if owner_message.sex == 0 %}
+                             <p><span>性别：</span>男</p>
+                             {% elif owner_message.sex == 1 %}
+                             <p><span>性别：</span>女</p>
+                             {% endif %}
+                          </div>
+                          <div class="location">
+                             <p><span>居住地： {{ owner_message.location }}</span><p>
+                          </div>
+                          <div class="job">
+                             <p><span>职业：</span> {{ owner_message.job }}</p>
+                          </div>
+                          <div class="eduction">
+                             <p><span>教育经历：</span> {{ owner_message.edcution }}</p>
+                          </div>
+                          <div  class="about-me">
+                                  <p><span>个性签名:</span>{{ owner_message.about_me }}</p>
+                          </div>
+                          {% if author == current_user %}
+                        <div  class="edit-message">
+                                  <p><span><a  id="edit-message" href="{% url 'YYblog:updateMessage' %}">编辑资料</a></span></p>
+                          </div>
+                          {% endif %}
+                          {% else %}
+                        
+                            {% if author == current_user %}
+                          <p>您暂时还没有个人资料信息，请及时添加！</p>
+                           <div  class="edit-message">
+                                  <span><a id="edit-message" href="{% url 'YYblog:editMessage'%}">编辑资料</a></span>
+                          </div>
+                          {% elif author != current_user %}
+                          <p>个人资料为空！</p>
+                          {% endif %}
+                    {% endif %}
+                </div>
+              {% endblock main %}
+              </main>
+     </div>
+              {% endblock nav %}

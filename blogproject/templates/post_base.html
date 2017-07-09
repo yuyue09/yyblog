@@ -1,0 +1,99 @@
+{% load YYblog_tags %}
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    {% load staticfiles %}
+    {% load staticfiles %}
+     {% bootstrap_css %} 
+    {% bootstrap_javascript %} 
+  
+    <link rel="stylesheet" href="{% static 'YYblog/css/custom.css' %}" />
+    <link rel="shortcut icon" href="{% static 'YYblog/image/gui.ico' %}" type="image/x-icon">
+<link rel="icon" href="{% static 'YYblog/image/gui.ico' %}" type="image/x-icon">
+   <script type="text/javascript" src="{% static 'YYblog/ckeditor/ckeditor/ckeditor.js'%}"></script>
+    <style type="text/css" >
+    #account,#index,#myblog{ font-size: 20px; margin-top: 10px; color: white;}
+ #index{ margin-left: 15px;}
+.navbar{ height: 70px;font-family: "Comic Sans MS", cursive}
+.dropdown-menu{ font-size:20px;}
+#mess:hover{ background-color: #99F;}
+.about-me{ margin-right:30px;}
+	.title input{ width:500px;font-family:Arial, Helvetica, sans-serif; font-size:15px;}
+    .category{ margin-top: 30px;}
+.pub{ margin-top: 30px; background-color:#0066FF; color:#FFF;}
+#success-message{ float: right; margin-right: 300px; height:30px;}
+.success-message{ font-size:20px; color:blue;}
+.sele{ height:30px;}
+body{ background-image:url(../../static/YYblog/image/bg.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size:100% 100%;}
+</style>
+    <title>YY &amp; 博客</title>
+    </head>
+
+    <body>
+         {% block navbar %}
+   <div class="navbar navbar-inverse" role="navigation"> 
+    <div class="container"> 
+        <div class="navbar-header"> 
+            <button type="button" class="navbar-toggle" 
+             data-toggle="collapse" data-target=".navbar-collapse"> 
+                <span class="sr-only">Toggle navigation</span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+            </button> 
+            <a class="navbar-brand" href="{% url 'YYblog:index' %}" id="myblog"><b>YY</b> &amp; 博客</a> 
+        </div> 
+        <div class="navbar-collapse collapse"> 
+            <ul class="nav navbar-nav"> 
+                <li><a href="{% url 'YYblog:index' %}" id="index">首页</a></li> 
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+             <li><a href="#" id="index" class="about-me">关于博客</a></li>
+             {% if user.is_authenticated %}
+             <a id="account" data-toggle="dropdown" class="navbar-brand" href="">{{ user.username}}<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                       <li><a href="{% url 'YYblog:blog'%}"   id="mess">写博客</a></li>
+                       <li><a  id="mess" href="{% url 'YYblog:home' user.id %}">我的主页</a></li>
+                     <li><a id="mess" href="{% url 'YYblog:login' %}">登录</a></li> 
+                     <li><a id="mess" href="{% url 'YYblog:logout' %}">退出</a></li>
+                 </ul>
+             {% else %}
+            <a id="account" data-toggle="dropdown" class="navbar-brand" href="">设置<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                     <li><a id="mess" href="{% url 'YYblog:login' %}">登录</a></li> 
+                      <li><a  id="mess" href="{% url 'YYblog:regist'%}">注册</a></li>
+                 </ul>
+                 {% endif %}
+               </ul>
+        </div> 
+    </div> 
+</div> 
+{% endblock %}
+
+        <div class="content-body">
+            <div class="container">
+                <div class="row">
+                    <main class="col-md-8">
+                          {% block main %}
+                          {% endblock main %}
+                    </main>
+                    </div>
+                  </div>
+                  </div>
+                  
+       <script language="javascript" type="text/javascript">
+              $(function(){
+				 setTimeout(function(){
+					$('.success-message').hide();
+					 },2000);
+				  })
+       </script>
+      
+    </body>
+</html>

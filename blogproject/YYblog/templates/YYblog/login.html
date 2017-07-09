@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    {% load staticfiles %}
+    <!--css-->
+    <link rel="stylesheet" href="{% static 'YYblog/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{% static 'YYblog/css/custom.css' %}" />
+    <link rel="stylesheet" href="{% static 'YYblog/css/pace.css' %}" />
+    <link rel="stylesheet" href="{% static 'YYblog/css/regist.css' %}" />
+    <!--js-->
+    <script src="{% static 'YYblog/js/bootstrap.min.js '%}" ></script>
+    <script src="{% static 'YYblog/js/jquery-2.1.3.min.js' %}" ></script>
+    <script src="{% static 'YYblog/js/modernizr.custom.js' %}" ></script>
+    <script src="{% static 'YYblog/js/pace.min.js' %}" ></script>
+    
+    <title>YY&amp; 博客</title>
+	</head>
+
+	<body>
+             <div class="nav">
+                 <a class="signin" href="#">登录</a>
+                 <a class="signup" href="{% url 'YYblog:regist' %}">注册</a>
+             </div>
+	          <div class="login">
+		<form  method="POST">{% csrf_token %}
+		 <div class="user">
+			用户：{{ loginform.username }}
+		</div>
+		<div class="pass">
+			密码：{{ loginform.password }}
+		</div>
+			<button type="submit" class="log">登录</button>
+		</form>
+                 {% for message in messages %}
+                 <span class="message">{{ message }}</span>
+                 {% endfor %}
+		</div>
+
+	</body>
+</html>

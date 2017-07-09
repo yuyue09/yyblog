@@ -1,0 +1,115 @@
+{% load YYblog_tags %}
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    {% load staticfiles %}
+    {% load staticfiles %}
+     {% bootstrap_css %} 
+    {% bootstrap_javascript %} 
+    <!--css-->
+    <link rel="stylesheet" href="{% static 'YYblog/css/custom.css' %}" />
+    <link rel="stylesheet" href="{% static 'YYblog/css/perhome.css' %}" />
+     <link rel="shortcut icon" href="{% static 'YYblog/image/gui.ico' %}" type="image/x-icon">
+<link rel="icon" href="{% static 'YYblog/image/gui.ico' %}" type="image/x-icon">
+   
+    <style type="text/css" >
+      #account,#index,#myblog{ font-size: 20px; margin-top: 10px; color: white;}
+       #index{ margin-left: 15px;}
+      #about-me{ margin-right:30px;font-size: 20px; margin-top: 10px; color: white;}
+       .navbar{ height: 70px;font-family: "Comic Sans MS", cursive}
+       .navbar-collapse { float: right;}
+       #mess:hover{ background-color: #99F;}
+       .dropdown-menu{ font-size:20px; margin-left: 1100px;}
+       .user-message{ width: 300px; height: 600px;  float:right; margin-top:80px; }
+	  .followed-date{ margin-left:20px; font-size:20px;}
+       .followed-list{ margin-top:50px;}
+	   .no-post,.no-followed,.no-acti{ margin-top:30px; margin-left:50px; font-size:20px;}
+	   .message-title{ margin:0 auto; text-align:center; margin-top:70px;}
+	   .owner-messages{ width:600px; height:300px; margin:0 auto; margin-top:50px;}
+	   .old-messages{ width:600px; height:300px; margin:0 auto; margin-top:50px;}
+	   .edit-message{ margin-top:50px; width:200px; height:30px;}
+	   #edit-message{ font-family:'楷体'; color:green;}
+	   #edit-message:hover{ color:#0F88EB;}
+	   .owner-messages p{ font-size:20px; font-family:'楷体';}
+	   .old-messages input,textarea,span,p{ font-size:20px; font-family:'楷体';}
+	   .old-messages textarea{ width:405px; height:80px; resize:none;}
+	   .old-messages div{ margin-top:20px;}
+	   .old-messages #id_location{ margin-left:20px; width:300px;}
+	   .old-messages #id_job{ margin-left:40px; width:300px;}
+	   .old-messages #id_eduction{ width:300px;}
+	   .old-messages #sex{ margin-left:50px;}
+	   .old-messages button{ margin-top:20px; background-color:#0F88EB; color:#FFF; border:1px solid #FFF;}
+	   #success-message{ width:600px; height:30px; margin:0 auto;}
+	   .new-messages{ width:600px; height:300px; margin:0 auto; margin-top:50px;}
+	   .new-messages input,textarea,span,p{ font-size:20px; font-family:'楷体';}
+	   .new-messages textarea{ width:405px; height:80px; resize:none;}
+	   .new-messages div{ margin-top:20px;}
+	   .new-messages #id_location{ margin-left:20px; width:300px;}
+	   .new-messages #id_job{ margin-left:40px; width:300px;}
+	   .new-messages #id_eduction{ width:300px;}
+	   .new-messages #sex{ margin-left:50px;}
+	   .new-messages button{ margin-top:20px; background-color:#0F88EB; color:#FFF; border:1px solid #FFF;}
+	   body{ background-image:url(../../static/YYblog/image/bg.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size:100% 100%;}
+</style>
+    <title>YY &amp; 博客</title>
+    </head>
+<body>
+          
+                <div class="navbar navbar-inverse" role="navigation"> 
+                   <div class="container"> 
+        <div class="navbar-header"> 
+            <button type="button" class="navbar-toggle" 
+             data-toggle="collapse" data-target=".navbar-collapse"> 
+                <span class="sr-only">Toggle navigation</span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+            </button> 
+            <a class="navbar-brand" href="{% url 'YYblog:index' %}" id="myblog"><b>YY</b> &amp; 博客</a> 
+              <a class="navbar-brand" href="{% url 'YYblog:index' %}" id="index">首页</a>
+             </div> 
+                     <div class="navbar-collapse collapse"> 
+                            {% if user.is_authenticated %}
+             <a id="account" data-toggle="dropdown" class="navbar-brand" href="">{{ user.username}}<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                       <li><a href="{% url 'YYblog:blog'%}"  id="mess" >写博客</a></li>
+                       <li><a  id="mess" href="{% url 'YYblog:home' user.id %}">我的主页</a></li>
+                     <li><a id="mess" href="{% url 'YYblog:login' %}">登录</a></li> 
+                     <li><a id="mess" href="{% url 'YYblog:logout' %}">退出</a></li>
+                 </ul>
+             {% else %}
+            <a id="account" data-toggle="dropdown" class="navbar-brand" href="">设置<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                     <li><a id="mess" href="{% url 'YYblog:login' %}">登录</a></li> 
+                      <li><a  id="mess" href="{% url 'YYblog:regist'%}">注册</a></li>
+                 </ul>
+                 {% endif %}
+                     </div>
+              </div>
+              </div>
+              {% block message %}
+              {% endblock message %}
+             {% block nav %}
+  
+                         {% block main %}
+                        {% endblock main %}
+                  
+              {% endblock nav%}
+              
+        <script language="javascript" type="text/javascript">
+              $(function(){
+				 setTimeout(function(){
+					$('.success-message').hide();
+					 },2000);
+				  })
+       </script>
+      
+         
+</body>
+</html>

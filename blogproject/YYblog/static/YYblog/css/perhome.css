@@ -1,0 +1,11 @@
+.nav a{ font-family: "Comic Sans MS", cursive; font-size:20px; margin-left:50px;}
+.nav{ margin-top:100px; margin-left: 100px; border:1px solid #CCC; width:700px; height:1000px;}
+.he a:hover{ color:#06F;}
+#account,#index,#myblog{ font-size: 20px; margin-top: 10px; color: white;}
+#index{ margin-left: 15px;}
+#about-me{ margin-right:30px;font-size: 20px; margin-top: 10px; color: white;}
+.navbar{ height: 70px;font-family: "Comic Sans MS", cursive}
+.navbar-collapse { float: right;}
+#mess:hover{ background-color: #99F;}
+.dropdown-menu{ font-size:20px; margin-left: 1100px;}
+#user-message{ width: 200px; height: 200px; border: 1px solid red;}
